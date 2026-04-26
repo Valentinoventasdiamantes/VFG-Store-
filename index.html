@@ -1,331 +1,304 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VFG Store</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VFG STORE | Elite Digital Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #020202;
+            --card: rgba(10, 10, 10, 0.75);
+            --accent: #00f2ff;
+            --text: #ffffff;
+            --text-dim: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --grad: linear-gradient(135deg, #00f2ff 0%, #0066ff 100%);
+        }
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { display: none; }
 
-body{
-font-family:'Segoe UI',sans-serif;
-background:#000;
-color:#fff;
-overflow-x:hidden;
-}
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            /* MEJORA DE SCROLL WALLPAPER */
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; 
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.4s ease-in-out; 
+            position: relative;
+        }
 
-/* ================= POPUP ================= */
-#popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:99999;
-}
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.85) 100%);
+            z-index: -1;
+        }
 
-.popup-box{
-position:relative;
-max-width:500px;
-width:90%;
-animation:fadeIn 0.4s ease;
-}
+        #main-popup {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10000; backdrop-filter: blur(15px);
+        }
+        .popup-container { position: relative; max-width: 400px; width: 85%; animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .popup-container img { width: 100%; border-radius: 25px; border: 1px solid var(--border); box-shadow: 0 0 50px rgba(0,242,255,0.2); }
+        .close-popup {
+            position: absolute; top: -15px; right: -15px; background: var(--accent);
+            color: #000; width: 35px; height: 35px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; font-weight: 800; cursor: pointer;
+        }
 
-.popup-box img{
-width:100%;
-border-radius:15px;
-box-shadow:0 15px 40px rgba(0,0,0,0.6);
-}
+        header {
+            position: sticky; top: 0; width: 100%; z-index: 1000;
+            background: rgba(2, 2, 2, 0.8); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-container {
+            max-width: 1400px; margin: 0 auto; display: flex; align-items: center; padding: 12px 20px; gap: 15px;
+        }
+        .logo { font-weight: 800; font-size: 1.3rem; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; }
+        
+        .menu-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 5px 0; scrollbar-width: none; }
+        .nav-btn {
+            background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text-dim);
+            padding: 10px 18px; border-radius: 14px; cursor: pointer; font-weight: 600;
+            white-space: nowrap; transition: 0.2s; font-size: 0.8rem;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav-btn.active { background: #fff; color: #000; border: none; transform: scale(1.05); }
 
-.cerrar-popup{
-position:absolute;
-top:8px;
-right:12px;
-font-size:22px;
-font-weight:bold;
-cursor:pointer;
-color:white;
-transition:0.3s;
-}
+        .section-icon {
+            width: 75px; height: 75px; margin: 0 auto 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.6rem; border-radius: 22px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
 
-.cerrar-popup:hover{
-color:red;
-transform:scale(1.2);
-}
-/* ========================================= */
+        main { max-width: 1200px; margin: 0 auto; padding: 40px 20px 100px; min-height: 100vh; }
+        .section-intro { margin-bottom: 40px; text-align: center; animation: fadeIn 0.4s ease; }
+        .section-intro h2 { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 5px; }
 
-/* Animaciones */
-.fade{
-animation:fadeIn 1s ease forwards;
-}
+        .cat-title { 
+            font-size: 0.85rem; font-weight: 800; color: var(--accent); 
+            text-transform: uppercase; margin: 45px 0 20px; letter-spacing: 2px;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .cat-title::after { content: ""; height: 1px; flex: 1; background: var(--border); }
 
-@keyframes fadeIn{
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1; transform:translateY(0);}
-}
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+        .card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 24px; padding: 25px; transition: 0.3s;
+            display: flex; flex-direction: column; justify-content: space-between;
+            backdrop-filter: blur(12px);
+        }
+        .card:hover { border-color: var(--item-color); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
-/* HEADER */
-header{
-text-align:center;
-padding:50px 20px 20px;
-}
+        .item-badge { 
+            font-size: 0.65rem; font-weight: 800; color: #000; background: var(--item-color); 
+            padding: 5px 12px; border-radius: 20px; width: fit-content; margin-bottom: 12px; 
+            text-transform: uppercase; display: flex; align-items: center; gap: 6px;
+        }
+        .item-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .item-price { font-size: 1.8rem; font-weight: 800; margin: 12px 0 25px; color: #fff; }
+        .item-price::before { content: "$"; font-size: 1.1rem; color: var(--item-color); margin-right: 4px; }
 
-.logo img{
-width:170px;              /* más pequeño */
-height:auto;
-max-width:70%;
-background:#0d0d0d;       /* mismo tono oscuro del fondo */
-padding:8px 18px;         /* efecto rectangular */
-border-radius:10px;       /* bordes suaves */
-box-shadow:0 0 20px rgba(255,255,255,0.05);
-transition:0.3s ease;
-}
+        .buy-btn {
+            width: 100%; background: #fff; color: #000; border: none; padding: 14px;
+            border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s;
+            text-transform: uppercase; font-size: 0.8rem;
+        }
+        .buy-btn:hover { background: var(--item-color); color: #fff; }
 
-.logo img:hover{
-transform:scale(1.04);
-box-shadow:0 0 25px rgba(255,255,255,0.1);
-}
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(15px); padding: 20px; }
+        .modal { background: #080808; border: 1px solid var(--border); width: 100%; max-width: 420px; padding: 35px; border-radius: 30px; }
+        input, select { width: 100%; padding: 16px; margin-bottom: 15px; border-radius: 14px; background: #121212; border: 1px solid var(--border); color: #fff; outline: none; }
+        .confirm-btn { width: 100%; padding: 18px; border-radius: 14px; background: var(--grad); color: #fff; font-weight: 800; border: none; cursor: pointer; }
 
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-
-header h1{
-margin-top:20px;
-font-size:28px;
-letter-spacing:2px;
-}
-
-header p{
-opacity:0.6;
-margin-top:5px;
-}
-
-/* CONTENEDOR */
-.container{
-width:90%;
-max-width:1100px;
-margin:40px auto;
-}
-
-/* TITULOS */
-.section-title{
-font-size:20px;
-margin:60px 0 20px;
-border-left:4px solid #fff;
-padding-left:12px;
-opacity:0.9;
-}
-
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-}
-
-/* TARJETAS */
-.card{
-background:#111;
-padding:25px;
-border-radius:15px;
-border:1px solid #222;
-transition:0.3s ease;
-}
-
-.card:hover{
-transform:translateY(-6px);
-border:1px solid #444;
-box-shadow:0 10px 30px rgba(255,255,255,0.07);
-}
-
-.card h3{
-font-size:17px;
-margin-bottom:10px;
-}
-
-.price{
-font-size:20px;
-font-weight:bold;
-margin-bottom:15px;
-}
-
-button{
-width:100%;
-padding:10px;
-border:none;
-border-radius:8px;
-background:#fff;
-color:#000;
-font-weight:600;
-cursor:pointer;
-transition:0.3s;
-}
-
-button:hover{
-background:#ccc;
-}
-
-/* MODAL */
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-.modal-content{
-background:#111;
-padding:30px;
-border-radius:14px;
-width:90%;
-max-width:400px;
-border:1px solid #333;
-animation:fadeIn 0.3s ease;
-}
-
-input, select{
-width:100%;
-padding:10px;
-margin-top:10px;
-border-radius:6px;
-border:1px solid #333;
-background:#000;
-color:white;
-}
-
-.close{
-text-align:right;
-cursor:pointer;
-margin-bottom:10px;
-color:#aaa;
-}
-</style>
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .section-intro h2 { font-size: 1.8rem; }
+            .card { padding: 18px; }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- POPUP -->
-<div id="popup">
-<div class="popup-box">
-<span class="cerrar-popup" onclick="cerrarPopup()">✖</span>
-<img src="promo.jpg" alt="VFG Store Promo">
-</div>
-</div>
+    <div id="main-popup">
+        <div class="popup-container">
+            <span class="close-popup" onclick="closePopup()">✕</span>
+            <img src="promo.jpg" alt="VFG STORE Ofertas">
+        </div>
+    </div>
 
-<header class="fade">
-<div class="logo">
-<img src="logo.jpg" alt="VFG Store Logo">
-</div>
-<h1>VFG STORE</h1>
-<p>Diamantes y Extras - Entrega Rápida</p>
-</header>
+    <header>
+        <div class="nav-container">
+            <div class="logo">VFG STORE</div>
+            <div class="menu-scroll">
+                <button class="nav-btn active" onclick="render('home')"><i class="fa-solid fa-house"></i> Inicio</button>
+                <button class="nav-btn" onclick="render('ff')"><i class="fa-solid fa-fire"></i> Free Fire</button>
+                <button class="nav-btn" onclick="render('roblox')"><i class="fa-solid fa-cube"></i> Roblox</button>
+                <button class="nav-btn" onclick="render('bs')"><i class="fa-solid fa-gun"></i> Block Strike</button>
+                <button class="nav-btn" onclick="render('ig')"><i class="fa-brands fa-instagram"></i> Instagram</button>
+                <button class="nav-btn" onclick="render('tt')"><i class="fa-brands fa-tiktok"></i> TikTok</button>
+                <button class="nav-btn" onclick="render('yt')"><i class="fa-brands fa-youtube"></i> YouTube</button>
+                <button class="nav-btn" onclick="render('stream')"><i class="fa-solid fa-play"></i> Streaming</button>
+                <button class="nav-btn" onclick="render('apps')"><i class="fa-solid fa-mobile-screen"></i> Apps</button>
+                <button class="nav-btn" onclick="render('wsp')"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+                <button class="nav-btn" onclick="render('files')"><i class="fa-solid fa-folder-open"></i> Paneles/Archivos</button>
+            </div>
+        </div>
+    </header>
 
-<div class="container fade">
+    <main id="app"></main>
 
-<div class="section-title">Precios Normales 🍀</div>
-<div class="grid">
-<div class="card"><h3>110 💎</h3><div class="price">$1500 ARS</div><button onclick="abrirModal('110 💎 Normal','1500')">Comprar</button></div>
-<div class="card"><h3>341 💎</h3><div class="price">$5000 ARS</div><button onclick="abrirModal('341 💎 Normal','5000')">Comprar</button></div>
-<div class="card"><h3>572 💎</h3><div class="price">$7000 ARS</div><button onclick="abrirModal('572 💎 Normal','7000')">Comprar</button></div>
-<div class="card"><h3>1166 💎</h3><div class="price">$13000 ARS</div><button onclick="abrirModal('1166 💎 Normal','13000')">Comprar</button></div>
-<div class="card"><h3>2398 💎</h3><div class="price">$25000 ARS</div><button onclick="abrirModal('2398 💎 Normal','25000')">Comprar</button></div>
-<div class="card"><h3>6160 💎</h3><div class="price">$70000 ARS</div><button onclick="abrirModal('6160 💎 Normal','70000')">Comprar</button></div>
-</div>
+    <div class="overlay" id="checkout">
+        <div class="modal">
+            <h3 id="m-title">Producto</h3>
+            <p id="m-price" style="color:var(--accent); font-weight:800; margin: 10px 0 25px; font-size: 1.5rem;"></p>
+            <input type="text" id="m-user" placeholder="Dato">
+            <select id="m-pay">
+                <option value="">Selecciona Pago</option>
+                <option>Mercado Pago</option>
+                <option>Transferencia</option>
+                <option>Binance (USDT)</option>
+            </select>
+            <button class="confirm-btn" onclick="send()">Finalizar por WhatsApp</button>
+            <button onclick="closeModal()" style="background:transparent; color:#555; width:100%; margin-top:15px; border:none; cursor:pointer; font-weight:700;">Regresar</button>
+        </div>
+    </div>
 
-<div class="section-title">Precios de Stock ⚡</div>
-<div class="grid">
-<div class="card"><h3>110 💎</h3><div class="price">$1200 ARS</div><button onclick="abrirModal('110 💎 Stock','1200')">Comprar</button></div>
-<div class="card"><h3>341 💎</h3><div class="price">$3800 ARS</div><button onclick="abrirModal('341 💎 Stock','3800')">Comprar</button></div>
-<div class="card"><h3>572 💎</h3><div class="price">$5800 ARS</div><button onclick="abrirModal('572 💎 Stock','5800')">Comprar</button></div>
-<div class="card"><h3>1166 💎</h3><div class="price">$11000 ARS</div><button onclick="abrirModal('1166 💎 Stock','11000')">Comprar</button></div>
-<div class="card"><h3>2398 💎</h3><div class="price">$21000 ARS</div><button onclick="abrirModal('2398 💎 Stock','21000')">Comprar</button></div>
-<div class="card"><h3>6160 💎</h3><div class="price">$55000 ARS</div><button onclick="abrirModal('6160 💎 Stock','55000')">Comprar</button></div>
-</div>
+    <script>
+        const DATA = {
+            home: { 
+                t: "VFG STORE", d: "Premium Digital Hub", icon: "fa-solid fa-gem", color: "#00f2ff", 
+                img: "https://wallpaperaccess.com/full/1567831.jpg",
+                rows: [{ n: "Novedades", ph: "Info", items: [["Consultar Servicio", "Gratis"]] }] 
+            },
+            ff: {
+                t: "Free Fire", d: "Cargas por ID oficiales", icon: "fa-solid fa-fire", color: "#ff8c00",
+                img: "fre.jpg",
+                rows: [
+                    { n: "Stock por ID ✨", ph: "ID Jugador", items: [["100💎", "1.100"], ["341💎", "3.300"], ["572💎", "5.300"], ["1.166💎", "10.300"], ["2.398💎", "20.300"], ["6.160💎", "55.000"]] },
+                    { n: "Diamantes Infinitos ", ph: "ID Jugador", items: [["110💎", "1.450"], ["341💎", "5.000"], ["572💎", "7.000"], ["1166💎", "12.680"], ["6160💎", "60.000"]] },
+                    { n: "Extras", ph: "ID Jugador", items: [["Pase Booyah", "3.500"]] }
+                ]
+            },
+            roblox: {
+                t: "Roblox", d: "Robux via Gamepass", icon: "fa-solid fa-cube", color: "#f0f0f0",
+                img: "roblox.png",
+                rows: [{ n: "Cargas", ph: "Usuario", items: [
+                    ["100 Robux", "1.250"], 
+                    ["300 Robux", "3.750"], 
+                    ["500 Robux", "6.300"], 
+                    ["1.000 Robux", "12.500"], 
+                    ["2.000 Robux", "25.000"], 
+                    ["4.000 Robux", "50.000"]] 
+                }]
+            },
+            bs: {
+                t: "Block Strike", d: "Oro oficial", icon: "fa-solid fa-gun", color: "#3b82f6",
+                img: "blok.png",
+                rows: [{ n: "Oro", ph: "ID de BS", items: [["51 Oro", "900"], ["105 Oro", "1.450"], ["320 Oro", "3.800"], ["540 Oro", "6.200"], ["1.100 Oro", "12.000"], ["2.260", "23.000"], ["5.800", "60.000"], ["Strike Pass Elite", "6.000"], ["Strike Premium", "12.500"]] }]
+            },
+            ig: { t: "Instagram", d: "Crecimiento Social", icon: "fa-brands fa-instagram", color: "#e1306c", img: "ig.png", rows: [{ n: "Seguidores", ph: "Link Perfil", items: [["100 Seg", "800"], ["300 Seg", "1.600"], ["500 Seg", "2.000"], ["1k Seg", "3.500"], ["5k Seg", "7.000"], ["10k Seg", "10.000"], ["20k Seg", "18.500"]] }, { n: "Likes", ph: "Link Foto/Reel", items: [["100 Likes", "500"], ["300 Likes", "1.000"], ["500 Likes", "1.500"], ["1k Likes", "2.000"], ["5k Likes", "5.000"], ["10k Likes", "10.000"], ["20k Likes", "18.000"]] }, { n: "Vistas", ph: "Link Reel/Video", items: [["1k Vistas", "500"], ["3k Vistas", "1.000"], ["5k Vistas", "1.500"], ["10k Vistas", "2.000"], ["50k Vistas", "5.500"], ["100k Vistas", "10.000"], ["500k Vistas", "18.000"]] }] },
+            tt: { t: "TikTok", d: "Viraliza tu perfil", icon: "fa-brands fa-tiktok", color: "#ffffff", img: "https://wallpapercave.com/wp/wp6651877.png", rows: [{ n: "Vistas", ph: "Link Video", items: [["1k Vistas", "500"], ["3k Vistas", "1.500"], ["5k Vistas", "1.700"], ["10k Vistas", "3.000"], ["50k Vistas", "5.000"], ["100k Vistas", "8.500"], ["500k Vistas", "30.000"], ["1M Vistas", "50.000"]] }] },
+            yt: { t: "YouTube", d: "Crecimiento de Canal", icon: "fa-brands fa-youtube", color: "#ff0000",
+                 img: "yutu.png",
+                 rows: [{ n: "Subs", ph: "Link Canal", items: [["100 Subs", "1.500"], ["200 Subs", "3.000"], ["300 Subs", "4.500"], ["500 Subs", "7.000"], ["1.000 Subs", "15.000"]] }, { n: "Likes", ph: "Link Video", items: [["100 Likes", "500"], ["500 Likes", "2.000"], ["1.000 Likes", "3.000"], ["5.000 Likes", "4.500"], ["10.000 Likes", "7.000"]] }, { n: "Vistas", ph: "Link Video", items: [["500 Vistas", "3.000"], ["1.000 Vistas", "5.500"], ["5.000 Vistas", "15.000"], ["10.000 Vistas", "30.000"]] }]
+                },
+            stream: {
+                t: "Streaming", d: "Cuentas Privadas", icon: "fa-solid fa-play", color: "#a855f7",
+                img: "xd.png",
+                rows: [{ n: "Plataformas", ph: "WhatsApp", items: [["Netflix", "8.000"], ["Disney+", "7.000"], ["HBO Max", "7.500"], ["Crunchyroll", "4.000"], ["Paramount + ", "5.500"], ["Apple TV", "13.000"]] }]
+            },
+            apps: {
+                t: "Apps Pro", d: "Premium", icon: "fa-solid fa-mobile-screen", color: "#10b981",
+                img: "https://wallpapercave.com/wp/wp4522437.jpg",
+                rows: [{ n: "Suscripciones", ph: "Correo", items: [["Canva Año", "50.000"], ["CapCut Pro", "7.000"], ["ChatGPT Mes", "5.500"]] }]
+            },
+            wsp: { t: "WhatsApp", d: "Miembros y Reacciones", icon: "fa-brands fa-whatsapp", color: "#25d366", img: "https://wallpapercave.com/wp/wp7169420.jpg", rows: [{ n: "Miembros", ph: "Link Canal", items: [["50 Miembros", "700"], ["100 Miembros", "1.500"], ["200 Miembros", "2.500"], ["500 Miembros", "5.000"], ["1.000 Miembros", "9.500"]] }, { n: "Reacciones", ph: "Link Mensaje", items: [["50 Reac.", "700"], ["100 Reac.", "1.000"], ["500 Reac.", "5.000"], ["1.000 Reac.", "7.000"], ["5.000 Reac.", "25.000"], ["10.000 Reac.", "50.000"]] }] 
+            },
+            files: { t: "Paneles y Archivos", d: "Software y Modificaciones Elite", icon: "fa-solid fa-folder-open", color: "#facc15", img: "https://wallpapercave.com/wp/wp4522437.jpg", rows: [{ n: "Archivos Actualizados", ph: "Usuario/Modelo Celular", items: [["Sensi Xit", "2.000"], ["Panel Calibrador", "4.000"], ["Modificación Legal", "3.500"], ["Regedit Lion", "5.000"], ["MODDED v09", "9.000"], ["Headtrick 666", "6.000"], ["Pack Optimizador", "5.000"]] }, { n: "Holograma 👹", ph: "ID Jugador", items: [["Holograma (1 Temp)", "15.000"], ["Holograma (2 Temp)", "25.000"]] }, { n: "Proxy IOS 🍎", ph: "ID Jugador", items: [["Proxy (1 Día)", "7.000"], ["Proxy (7 Días)", "20.000"], ["Proxy (30 Días)", "35.000"]] }, { n: "Flourite & Mod Menu 👹", ph: "ID Jugador", items: [["Flourite (30 Días)", "80.000"], ["Mod Menu (1 Día)", "10.000"], ["Mod Menu (7 Días)", "25.000"], ["Mod Menu (30 Días)", "50.000"]] }]
+            }
+        };
+        
 
-<div class="section-title">Extras 🌟</div>
-<div class="grid">
-<div class="card"><h3>Tarjeta Semanal 💳</h3><div class="price">$3450 ARS</div><button onclick="abrirModal('Tarjeta Semanal','3450')">Comprar</button></div>
-<div class="card"><h3>Tarjeta Mensual 💳</h3><div class="price">$13500 ARS</div><button onclick="abrirModal('Tarjeta Mensual','13500')">Comprar</button></div>
-<div class="card"><h3>Tarjeta Básica 💳</h3><div class="price">$1000 ARS</div><button onclick="abrirModal('Tarjeta Básica','1000')">Comprar</button></div>
-<div class="card"><h3>Pase Booyah 💳</h3><div class="price">$2500 ARS</div><button onclick="abrirModal('Pase Booyah','2500')">Comprar</button></div>
-</div>
+        function closePopup() { document.getElementById('main-popup').style.display = 'none'; }
 
-</div>
+        function render(id) {
+            const app = document.getElementById('app');
+            const data = DATA[id];
+            
+            if(data.img) {
+                document.body.style.backgroundImage = `url('${data.img}')`;
+            }
 
-<!-- MODAL -->
-<div class="modal" id="modal">
-<div class="modal-content">
-<div class="close" onclick="cerrarModal()">X</div>
-<h3>Finalizar Pedido</h3>
-<p id="productoSeleccionado"></p>
-<input type="text" id="playerID" placeholder="Ingrese ID del jugador">
-<select id="metodoPago">
-<option value="">Seleccione método de pago</option>
-<option>Transferencia</option>
-<option>Mercado Pago</option>
-<option>USDT</option>
-</select>
-<button onclick="enviarPedido()">Enviar Pedido</button>
-</div>
-</div>
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            const currentBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.textContent.trim().toLowerCase().includes(data.t.toLowerCase()));
+            if(currentBtn) currentBtn.classList.add('active');
 
-<script>
-function cerrarPopup(){
-document.getElementById("popup").style.display="none";
-}
+            let html = `
+                <div class="section-intro">
+                    <div class="section-icon" style="color:${data.color}; border-color:${data.color}55">
+                        <i class="${data.icon}"></i>
+                    </div>
+                    <h2 style="color:${data.color}">${data.t}</h2>
+                    <p>${data.d}</p>
+                </div>`;
 
-let producto="";
-let precio="";
+            data.rows.forEach(r => {
+                html += `<div class="cat-title" style="color:${data.color}">${r.n}</div><div class="grid">`;
+                r.items.forEach(i => {
+                    html += `
+                        <div class="card" style="--item-color: ${data.color}">
+                            <div class="item-badge" style="background:${data.color}">
+                                <i class="${data.icon}"></i> ${data.t}
+                            </div>
+                            <div class="item-name">${i[0]}</div>
+                            <div class="item-price">${i[1]}</div>
+                            <button class="buy-btn" onclick="openMod('${i[0]} ${data.t}', '${i[1]}', '${r.ph}')">Comprar</button>
+                        </div>`;
+                });
+                html += `</div>`;
+            });
+            app.innerHTML = html;
+            window.scrollTo({top: 0}); 
+        }
 
-function abrirModal(prod,pre){
-producto=prod;
-precio=pre;
-document.getElementById("productoSeleccionado").innerHTML=
-"<strong>Producto:</strong> "+prod+"<br><strong>Precio:</strong> $"+pre+" ARS";
-document.getElementById("modal").style.display="flex";
-}
+        let selI, selP;
+        function openMod(n, p, ph) {
+            selI = n; selP = p;
+            document.getElementById('m-title').innerText = n;
+            document.getElementById('m-price').innerText = "$" + p;
+            document.getElementById('m-user').placeholder = "Ingresa tu " + ph;
+            document.getElementById('checkout').style.display = 'flex';
+        }
 
-function cerrarModal(){
-document.getElementById("modal").style.display="none";
-}
+        function closeModal() { document.getElementById('checkout').style.display = 'none'; }
 
-function enviarPedido(){
-let id=document.getElementById("playerID").value;
-let metodo=document.getElementById("metodoPago").value;
+        function send() {
+            const u = document.getElementById('m-user').value;
+            const p = document.getElementById('m-pay').value;
+            if(!u || !p) return alert("⚠️ Por favor completa los campos");
+            const msg = `🚀 *PEDIDO VFG STORE*\n📦 *Servicio:* ${selI}\n💰 *Monto:* $${selP}\n👤 *Dato:* ${u}\n💳 *Pago:* ${p}`;
+            window.open(`https://wa.me/5492984706726?text=${encodeURIComponent(msg)}`, '_blank');
+        }
 
-if(id===""||metodo===""){
-alert("Complete todos los campos");
-return;
-}
-
-let mensaje=
-"🛒 NUEVO PEDIDO\n"+
-"━━━━━━━━━━━━━━\n"+
-"💎 Producto: "+producto+"\n"+
-"💵 Precio: $"+precio+" ARS\n"+
-"🆔 ID: "+id+"\n"+
-"💳 Pago: "+metodo;
-
-let numero="5492984706726";
-let url="https://wa.me/"+numero+"?text="+encodeURIComponent(mensaje);
-
-window.open(url,'_blank');
-}
-</script>
-
+        window.onload = () => render('home');
+    </script>
 </body>
 </html>
